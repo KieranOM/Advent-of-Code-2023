@@ -9,6 +9,12 @@ public static class UintUtils
     
     public static bool TryParseSearch(in ReadOnlySpan<char> span, in int index, out uint value)
     {
+        return TryParseSearch(span, index, out value, out _);
+    }
+
+    public static bool TryParseSearch(in ReadOnlySpan<char> span, in int index, out uint value,
+        out ReadOnlySpan<char> parsedSpan)
+    {
         int length = 0;
 
         for (int i = index; i < span.Length; ++i)
@@ -20,7 +26,7 @@ public static class UintUtils
                 break;
         }
 
-        var numericSpan = span.Slice(index, length);
-        return uint.TryParse(numericSpan, out value);
+        parsedSpan = span.Slice(index, length);
+        return uint.TryParse(parsedSpan, out value);
     }
 }
